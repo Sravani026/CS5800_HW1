@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class Instructor {
     private String firstName;
     private String lastName;
@@ -31,6 +34,10 @@ class Instructor {
 
     public void setOfficeNumber(String officeNumber) {
         this.officeNumber = officeNumber;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 }
 
@@ -72,13 +79,13 @@ class Textbook {
 
 class Course {
     private String courseName;
-    private Instructor instructor;
-    private Textbook textbook;
+    private List<Instructor> instructors;
+    private List<Textbook> textbooks;
 
-    public Course(String courseName, Instructor instructor, Textbook textbook) {
+    public Course(String courseName, List<Instructor> instructors, List<Textbook> textbooks) {
         this.courseName = courseName;
-        this.instructor = instructor;
-        this.textbook = textbook;
+        this.instructors = instructors;
+        this.textbooks = textbooks;
     }
 
     public String getCourseName() {
@@ -89,58 +96,70 @@ class Course {
         this.courseName = courseName;
     }
 
-    public Instructor getInstructor() {
-        return instructor;
+    public List<Instructor> getInstructors() {
+        return instructors;
     }
 
-    public void setInstructor(Instructor instructor) {
-        this.instructor = instructor;
+    public void setInstructors(List<Instructor> instructors) {
+        this.instructors = instructors;
     }
 
-    public Textbook getTextbook() {
-        return textbook;
+    public List<Textbook> getTextbooks() {
+        return textbooks;
     }
 
-    public void setTextbook(Textbook textbook) {
-        this.textbook = textbook;
+    public void setTextbooks(List<Textbook> textbooks) {
+        this.textbooks = textbooks;
     }
 
     public void print() {
         System.out.println("Course Name: " + getCourseName());
-        System.out.println("Instructor: " + instructor.getFirstName() + " " + instructor.getLastName() +
-                ", Office Number: " + instructor.getOfficeNumber());
-        System.out.println("Textbook: " + textbook.getTitle() + " by " + textbook.getAuthor());
+        System.out.println("Instructors:");
+        for (Instructor instructor : instructors) {
+            System.out.println(instructor.getFullName() + ", Office Number: " + instructor.getOfficeNumber());
+        }
+        System.out.println("Textbooks:");
+        for (Textbook textbook : textbooks) {
+            System.out.println(textbook.getTitle() + " by " + textbook.getAuthor());
+        }
     }
 }
 
 public class CourseDriver {
     public static void main(String[] args) {
-        // Single instructor and textbook
+        // Single Instructor and Textbook
         Instructor instructor = new Instructor("Nima", "Davarpanah", "3-2636");
         Textbook textbook = new Textbook("Clean Code", "Robert C. Martin", "Prentice Hall");
+        List<Instructor> instructorsSingle = new ArrayList<>();
+        List<Textbook> textbooksSingle = new ArrayList<>();
+        instructorsSingle.add(instructor);
+        textbooksSingle.add(textbook);
 
-        Course course = new Course("Programming Principles", instructor, textbook);
+        Course courseSingle = new Course("Advanced Software Engineering", instructorsSingle, textbooksSingle);
 
         System.out.println("Single Instructor and Textbook");
         System.out.println("Course Information:");
-        course.print();
-
+        courseSingle.print();
         System.out.println("\n------------------------------------------\n");
 
-        // Multiple instructors and textbooks
+        // Multiple Instructors and Textbooks
         Instructor instructor1 = new Instructor("David", "Johannsen", "Zoom");
         Instructor instructor2 = new Instructor("John", "Korah", "8-15");
 
-        Textbook textbook1 = new Textbook("Computer Architecture, A Quantitative Approach", "John L. Hennessy ", "Morgan Kaufmann");
+        Textbook textbook1 = new Textbook("Computer Architecture, A Quantitative Approach", "John L. Hennessy", "Morgan Kaufmann");
         Textbook textbook2 = new Textbook("Introduction to Parallel Computing", "Ananth Grama", "Addison Wesley");
 
-        Course course2 = new Course("Advanced Computer Architecture", instructor1, textbook1);
-        Course course3 = new Course("Parallel and Distributed Algorithms", instructor2, textbook2);
+        List<Instructor> instructorsMultiple = new ArrayList<>();
+        List<Textbook> textbooksMultiple = new ArrayList<>();
+        instructorsMultiple.add(instructor1);
+        instructorsMultiple.add(instructor2);
+        textbooksMultiple.add(textbook1);
+        textbooksMultiple.add(textbook2);
+
+        Course courseMultiple = new Course("Advanced Computer Architecture", instructorsMultiple, textbooksMultiple);
 
         System.out.println("Multiple Instructors and Textbooks");
         System.out.println("Course Information:");
-        course2.print();
-        System.out.println("\n");
-        course3.print();
+        courseMultiple.print();
     }
 }
